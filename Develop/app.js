@@ -1,7 +1,6 @@
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
-const Employee =require("./lib/Employee")
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
@@ -15,7 +14,7 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-const team = []
+const employees = []
 
 const Employ =()=>{
     inquirer.prompt([
@@ -35,29 +34,59 @@ const Employ =()=>{
             name: "email"
         },
         {
+         type:"list",
+         message:"What is this employee's role?",
+         choices:["Engineer","Intern","Manager"],
+         name:"role"
+
+        },
+        {
             type:"confirm",
             message:"add more employees?",
             name:"more"
         }
     ]).then(function(response){
-        let teamMember = new Employee (response.Employee,response.id,response.email)
+        let teamMember = {}
+        if(response.role === "Engineer"){
+         teamMember = new Engineer(response.Employee,response.id,response.email)}
+        if(response.role === "Intern"){
+         teamMember = new Intern(response.Employee,response.id,response.email)}
+        if(response.role === "Manager"){
+         teamMember = new Manager(response.Employee,response.id,response.email)}
+
         console.log(teamMember)
-        team.push(teamMember)
+        employees.push(teamMember)
         if(response.more === true){
            Employ();
         }
+        else{
+            writeHTML();
+        }
+        
     })}
     Employ();
+    const writeHTML =()=>{
+    const renderTeam = render(employees)
+        fs.writeFile("team.html", renderTeam, function(err) {
+
+            if (err) {
+              return console.log(err);
+            }
+          
+            console.log("Success!");
+          
+          })}
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
-
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
+
+
 
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
