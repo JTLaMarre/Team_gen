@@ -15,6 +15,8 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+const team = []
+
 const Employ =()=>{
     inquirer.prompt([
         {
@@ -40,6 +42,7 @@ const Employ =()=>{
     ]).then(function(response){
         let teamMember = new Employee (response.Employee,response.id,response.email)
         console.log(teamMember)
+        team.push(teamMember)
         if(response.more === true){
            Employ();
         }
