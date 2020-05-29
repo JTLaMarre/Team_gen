@@ -1,6 +1,7 @@
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+const Employee =require("./lib/Employee")
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
@@ -12,31 +13,38 @@ const render = require("./lib/htmlRenderer");
 
 
 
-
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-inquirer.prompt([
-    {
-        type: "input",
-        message: "Employee name?",
-        name: "Employee"
-    },
-    {
-        tpye: "Input",
-        message: "Emploee ID?",
-        name: "id"
-    },
-    {
-        type: "Input",
-        message: "Employee email",
-        name: "email"
-    },
-    {
-        type:"confirm",
-        message:"add more employees?",
-        name:"more"
-    }
-])
+const Employ =()=>{
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Employee name?",
+            name: "Employee"
+        },
+        {
+            tpye: "Input",
+            message: "Employee ID?",
+            name: "id"
+        },
+        {
+            type: "Input",
+            message: "Employee email",
+            name: "email"
+        },
+        {
+            type:"confirm",
+            message:"add more employees?",
+            name:"more"
+        }
+    ]).then(function(response){
+        let teamMember = new Employee (response.Employee,response.id,response.email)
+        console.log(teamMember)
+        if(response.more === true){
+           Employ();
+        }
+    })}
+    Employ();
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
