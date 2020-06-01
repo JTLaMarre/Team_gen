@@ -40,6 +40,10 @@ const Employ =()=>{
          name:"role"
 
         },
+        {type:"input",
+        message:"what is the employee's (school-for intern, githubsername-engineer,office number- manager) ",
+        name:"fourthArg"
+    },
         {
             type:"confirm",
             message:"add more employees?",
@@ -48,11 +52,11 @@ const Employ =()=>{
     ]).then(function(response){
         let teamMember = {}
         if(response.role === "Engineer"){
-         teamMember = new Engineer(response.Employee,response.id,response.email)}
+         teamMember = new Engineer(response.Employee,response.id,response.email,response.fourthArg)}
         if(response.role === "Intern"){
-         teamMember = new Intern(response.Employee,response.id,response.email)}
+         teamMember = new Intern(response.Employee,response.id,response.email, response.fourthArg)}
         if(response.role === "Manager"){
-         teamMember = new Manager(response.Employee,response.id,response.email)}
+         teamMember = new Manager(response.Employee,response.id,response.email,response.fourthArg)}
 
         console.log(teamMember)
         employees.push(teamMember)
